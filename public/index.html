@@ -1,0 +1,31 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualização com WebSocket</title>
+</head>
+<body>
+    <label for="meuInput">Digite algo:</label>
+    <input type="text" id="meuInput" name="meuInput">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io(); // Conexão com o servidor
+
+        const input = document.getElementById('meuInput');
+
+        // Adiciona um listener para o evento 'input' (mudança no texto)
+        input.addEventListener('input', function() {
+            const novoTexto = input.value;
+            socket.emit('textoAlterado', novoTexto); // Envia o novo texto para o servidor
+        });
+
+        // Recebe a atualização de texto do servidor
+        socket.on('atualizarTexto', function(texto) {
+            input.value = texto; // Atualiza o valor da caixa de texto
+        });
+    </script>
+</body>
+</html>
